@@ -44,10 +44,13 @@ const Historia = React.lazy(() => import('./views/pages/principal/nosotros/Histo
 const Areas = React.lazy(() => import('./views/pages/principal/nosotros/Areas'));
 const Consejo = React.lazy(() => import('./views/pages/principal/nosotros/Consejo'));
 const Principal = React.lazy(() => import('./views/pages/principal/articulo/Principal'));
-
+const MainPost = React.lazy(() => import('./views/pages/principal/articulo/MainPost'))
+const EditPost = React.lazy(() => import('./views/pages/principal/articulo/EditPost'))
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/inicio', name: 'Landing Page', component: Inicio },
+  { path: '/post/:id', name: 'post', component: MainPost, exact: true },
+  { path: '/post-edit/:id', name: 'editPost', component: EditPost, exact: true },
   { path: '/historia', name: 'Historia', component: Historia, exact: true },
   { path: '/areas', name: 'Areas', component: Areas, exact: true },
   { path: '/consejo', name: 'Consejo', component: Consejo, exact: true },

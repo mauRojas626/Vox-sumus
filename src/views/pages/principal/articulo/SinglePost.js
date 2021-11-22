@@ -6,11 +6,13 @@ import {
     CImg,
     CRow,
     CBadge,
-    CCardSubtitle
+    CLink
   } from '@coreui/react'
 import '../../../../scss/post.scss'
 export default class SinglePost extends Component {
+    
     render() {
+        const article = this.props.article;
         return (
             <CCard>
                 <CCardHeader>
@@ -24,23 +26,16 @@ export default class SinglePost extends Component {
                 </CCardHeader>
                 <CCardBody>
                     <CRow className='mb-4'>
-                        <CBadge color="info" className="float-right ml-1">APP</CBadge>
-                        <CBadge color="info" className="float-right ml-1">Discapacidad</CBadge>
-                        <CBadge color="info" className="float-right ml-1">LGBTIQ+</CBadge>
+                        { article.tags.map((tag, index) => 
+                        <CBadge key={index} color="info" className="float-right ml-1">{tag}</CBadge>) }
                     </CRow>
                     <CRow className='mb-2'>
-                        <CCardSubtitle>titulo</CCardSubtitle>
+                        <p className='title ml-3 mr-3'><CLink to={"/post/"+article._id}>{article.title}</CLink></p>
                     </CRow>
+                    <CLink></CLink>
                     <CRow>
-                        <p className='desc'>
-                            Lorem ipsum dolor sit amet, consectetuer adipiscing elit, 
-                            sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. 
-                            Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip 
-                            ex ea commodo consequat.
-                            Lorem ipsum dolor sit amet, consectetuer adipiscing elit, 
-                            sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. 
-                            Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip 
-                            ex ea commodo consequat.
+                        <p className='desc text-justify ml-3 mr-3'>
+                            {article.description}
                         </p>
                     </CRow>
                 </CCardBody>
