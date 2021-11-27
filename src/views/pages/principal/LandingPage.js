@@ -6,7 +6,7 @@ import Banner from 'src/views/pages/principal/inicio/Banner'
 import AboutUs from './inicio/AboutUs';
 import Alliances from './inicio/Alliances';
 
-export default class Jeferson extends Component {
+export default class LandingPage extends Component {
     constructor(props){
         super(props);
         this.state = {
