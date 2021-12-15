@@ -4,6 +4,7 @@ export default class ArticleModel extends SimpleProperty {
     id = 0;
     title = '';
     description = '';
+    miniDesc = '';
     photo = '';
     authors = '';
     tags = [];

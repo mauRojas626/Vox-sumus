@@ -86,7 +86,6 @@ export class ScrollHorizontal extends Component {
     }
 
     onDelete = async (id) => {
-        console.log("se borra " + id)
         await this.props.deleteGroup(id);
         const failed = this.props.group.failed;
         let newNotification;

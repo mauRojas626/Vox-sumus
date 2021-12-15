@@ -71,19 +71,21 @@ export default class NewArticle extends Component {
         this.setState({showConfirmation: false});
     }
 
-    handleChange = () => (e) => {
-        console.log(e)
+    handleChange = (e) => {
+        const { article } = this.state;
+        let updatedArticle = { ...article };
+        updatedArticle["description"] = e;
+        this.setState({article: updatedArticle});
     }
 
     render() {
         const modules = {
             toolbar: [
-              [{ 'header': '1'}, {'header': '2'}, { 'font': [] }],
               [{size: []}],
-              ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+              ['bold', 'italic', 'underline', 'strike'],
               [{'list': 'ordered'}, {'list': 'bullet'}, 
                {'indent': '-1'}, {'indent': '+1'}],
-              ['link', 'image', 'video'],
+              ['link'],
               ['clean']
             ],
             clipboard: {
@@ -92,10 +94,10 @@ export default class NewArticle extends Component {
             }
         }
         const formats = [
-            'header', 'font', 'size',
-            'bold', 'italic', 'underline', 'strike', 'blockquote',
+            'size',
+            'bold', 'italic', 'underline', 'strike',
             'list', 'bullet', 'indent',
-            'link', 'image', 'video'
+            'link'
           ]
         const image = this.state.image;
         const chosenFile = this.state.chosenFile.name !== undefined ? this.state.chosenFile.name : 'Tamaño recomendado: 200x200px'
@@ -126,7 +128,8 @@ export default class NewArticle extends Component {
                                 <CCol md='11'><CInput id="name-input" name="name-input" onChange={this.onChange("authors")}></CInput></CCol>   
                             </CRow>
                             <CRow>
-                                <CCol><CTextarea id="body-input" name="body-input" onChange={this.onChange("description")}></CTextarea></CCol>   
+                                <CCol md='1'><CLabel htmlFor="name-input">Desc. breve</CLabel></CCol>
+                                <CCol><CTextarea id="body-input" name="body-input" onChange={this.onChange("miniDesc")}></CTextarea></CCol>   
                             </CRow>
                             <CRow>
                                 <CCol>

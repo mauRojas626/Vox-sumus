@@ -15,6 +15,7 @@ import * as articleActions from '../../../../services/redux/actions/article'
 import NewArticle from 'src/views/popups/NewArticle'
 import notification from '../../../../services/models/others/notification'
 import Notification from '../../../common/Notification'
+import Confirmation from 'src/views/common/Confirmation'
 
 export class Posts extends Component {
     constructor(props){
@@ -24,6 +25,8 @@ export class Posts extends Component {
             failed: false,
             articles: [],
             createResults: [],
+            showConfirmation: false,
+            deleteId: 0,
         }
     }
 
@@ -35,6 +38,10 @@ export class Posts extends Component {
             failed: this.props.article.failed,
             articles: [...articles]
         })
+    }
+
+    onDeleteArticle = (id) => {
+        this.setState({ showConfirmation: true, deleteId: id });
     }
 
     onAddArticle = () => {
@@ -72,17 +79,33 @@ export class Posts extends Component {
         this.setState({ showPopUpArticle: false });
     }
 
+    onSave = () => {
+        this.onDelete(this.state.deleteId);
+        this.setState({ showConfirmation: false });
+    }
+
+    onDelete = async (id) => {
+        await this.props.deleteArticle(id);
+        const failed = this.props.article.failed;
+        let newNotification;
+        if(failed){
+            newNotification = new notification('danger', 'Hubo un problema', 'No se pudo eliminar el artículo'); 
+        }
+        else{
+            newNotification = new notification('success', 'Eliminación exitosa', 'Artículo eliminado correctamente.'); 
+            await this.props.getArticles();
+            this.setState({articles: this.props.article.articles});
+        }
+        this.setState({createResults: [...this.state.createResults, newNotification]});
+
+    }
+
     render() {
         const { createResults } = this.state;
         return (
             <>
             { createResults.map((notification, index) => <Notification key={index} mode={notification.mode} title={notification.title} body={notification.body}></Notification> )}
             <CRow>
-                { this.state.articles.map((article, index) => 
-                    <CCol md='6' key={index}>
-                        <SinglePost key={index} article={article}></SinglePost>
-                    </CCol>) 
-                }
                 <CCol md='6'>
                     <CCard>
                         <CCardBody className="row justify-content-md-center">
@@ -100,7 +123,13 @@ export class Posts extends Component {
                         </CCardBody>
                     </CCard>
                 </CCol>
+                { this.state.articles.map((article, index) => 
+                    <CCol md='6' key={index}>
+                        <SinglePost key={index} id={article._id} article={article} onDelete={this.onDeleteArticle}></SinglePost>
+                    </CCol>) 
+                }
             </CRow>
+            {this.state.showConfirmation ? <Confirmation color='danger' onAccept={this.onSave} onDiscard={this.onDiscardConfirmation} title={'Borrar Artículo'} message={'¿Está seguro de borrar este artículo?'}></Confirmation> : null}
             {this.state.showPopUpArticle ? <NewArticle onAccept={this.onAcceptPopUp} onDiscard={this.onDiscardPopUp} ></NewArticle> : null}
             </>
         )

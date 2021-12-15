@@ -2,12 +2,14 @@ import {
     GET_ARTICLES,
     CREATE_ARTICLE,
     GET_ARTICLE,
-    ERROR_ARTICLE
+    ERROR_ARTICLE,
+    DELETE_ARTICLE
 } from './actionTypes/article'
 import {
     createArticle as createArticleAPI,
     getArticles as getArticlesAPI,
-    getArticle as getArticleAPI
+    getArticle as getArticleAPI,
+    deleteArticle as deleteArticleAPI,
 } from '../../api/article-api'
 
 import ResponseModel from '../../models/ResponseModel'
@@ -85,4 +87,27 @@ const createArticle = (article) => async (dispatch) => {
     })
 }
 
-export { getArticles, createArticle, getArticle }
+const deleteArticle = (id) => async (dispatch) => {
+    let res = new ResponseModel();
+    try{
+        res = await deleteArticleAPI(id);
+
+        if(!res.error && res.status >= 200 && res.status <= 300){
+            return dispatch({
+                type: DELETE_ARTICLE,
+                playload: id 
+            })
+        }
+    } catch(e){
+        console.log(e);
+        console.log('ERROR! '+DELETE_ARTICLE);
+        console.log(res.status);
+        console.log(res.error);
+    }
+    return dispatch({
+        type: ERROR_ARTICLE,
+        playload: false
+    })
+}
+
+export { getArticles, createArticle, getArticle, deleteArticle }

@@ -2,7 +2,8 @@ import {
     CREATE_ARTICLE,
     GET_ARTICLES,
     GET_ARTICLE,
-    ERROR_ARTICLE
+    ERROR_ARTICLE,
+    DELETE_ARTICLE,
 } from '../actions/actionTypes/article'
 
 const initialState = {
@@ -22,6 +23,8 @@ const article = (state = initialState, action) => {
             return {...state, isLogged: false};
         case GET_ARTICLE:
             return {...state, article: action.playload, isLoading: false, failed: false};
+        case DELETE_ARTICLE:
+            return {...state, articles:[...state.articles], failed: false}
         default:
             return {...state};
     }

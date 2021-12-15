@@ -50,8 +50,7 @@ export class MainPost extends Component {
                         <p className="font-weight-bold">Hace 10 dias</p>
                     </CRow>
                     <CRow className='mb-5'>
-                        <p className="text-justify space">{this.state.article.description}
-                        </p>
+                        <div dangerouslySetInnerHTML={{ __html: this.state.article.description}}></div>
                     </CRow>
                 </CCol>
                 <CCol md='3'>
